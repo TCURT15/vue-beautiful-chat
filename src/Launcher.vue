@@ -206,7 +206,8 @@ export default {
   mounted() {
     dragElement(document.querySelector('.sc-wrapper'));
     function dragElement(elmnt) {
-      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;    
+      document.querySelector(".sc-wrapper .sc-launcher").onmousedown = dragMouseDown;
       elmnt.onmousedown = dragMouseDown;
 
       function dragMouseDown(e) {
