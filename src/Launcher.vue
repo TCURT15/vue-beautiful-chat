@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sc-wrapper">
     <div v-if="showLauncher" class="sc-launcher" :class="{opened: isOpen}" @click.prevent="isOpen ? close() : openAndFocus()" :style="{backgroundColor: colors.launcher.bg}">
       <div v-if="newMessagesCount > 0 && !isOpen" class="sc-new-messsages-count">
         {{newMessagesCount}}
@@ -204,7 +204,7 @@ export default {
     }
   },
   mounted() {
-    dragElement(document.querySelector('.sc-launcher'));
+    dragElement(document.querySelector('.sc-wrapper'));
     function dragElement(elmnt) {
       var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
       elmnt.onmousedown = dragMouseDown;
