@@ -1,10 +1,12 @@
 <template>
   <div>
     <Suggestions :suggestions="suggestions" v-on:sendSuggestion="_submitSuggestion" :colors="colors"/>
-    <div v-if="file" class='file-container' :style="{backgroundColor: colors.userInput.text, color: colors.userInput.bg}">
-      <span class='icon-file-message'><img :src="icons.file.img"  :alt="icons.file.name" height="15" /></span>
-      {{file.name}}
-      <span class='delete-file-message' @click="cancelFile()"><img :src="icons.closeSvg.img" :alt="icons.closeSvg.name" height="10" title='Remove the file' /></span>
+    <div class="file-wrapper">
+    <div v-for="(f, index) in file" class='file-container' :style="{backgroundColor: '#065494', color: colors.userInput.bg}">
+      <span class='icon-file-message'><img :src="icons.file.img"  :alt="icons.file.name" height="15px" style="height: 15px" /></span>
+      {{f.name}}
+      <span class='delete-file-message' @click="cancelFile(index)"><img :src="icons.closeSvg.img" :alt="icons.closeSvg.name" height="10px" style="height: 10px" title='Remove the file' /></span>
+    </div>
     </div>
     <form class="sc-user-input" :class="{active: inputActive}" :style="{background: colors.userInput.bg}">
       <div
@@ -54,7 +56,7 @@ import FileIcons from './icons/FileIcons.vue'
 import UserInputButton from './UserInputButton.vue'
 import Suggestions from './Suggestions.vue'
 import FileIcon from './assets/file.svg'
-import CloseIconSvg from './assets/close.svg'
+import CloseIconSvg from './assets/close-icon-big.png'
 import store from "./store/"
 import IconCross from "./components/icons/IconCross.vue";
 import IconOk from "./components/icons/IconOk.vue";
@@ -114,14 +116,14 @@ export default {
   },
   data () {
     return {
-      file: null,
+      file: [],
       inputActive: false,
       store
     }
   },
   methods: {
-    cancelFile () {
-      this.file = null
+    cancelFile (index) {
+      Vue.delete(this.file, index)
     },
     setInputActive (onoff) {
       this.inputActive = onoff
@@ -155,7 +157,7 @@ export default {
     _submitText (event) {
       const text = this.$refs.userInput.textContent
       const file = this.file
-      if (file) {
+      if (file.length > 0) {
         this._submitTextWhenFile(event, text, file)
       } else {
         if (text && text.length > 0) {
@@ -175,7 +177,7 @@ export default {
           type: 'file',
           data: { text, file }
         })
-        this.file = null
+        this.file = []
         this.$refs.userInput.innerHTML = ''
       } else {
         this.onSubmit({
@@ -183,7 +185,7 @@ export default {
           type: 'file',
           data: { file }
         })
-        this.file = null
+        this.file = []
       }
     },
     _editText (event) {
@@ -199,14 +201,18 @@ export default {
       }
     },
     _handleEmojiPicked (emoji) {
-      this.onSubmit({
-        author: 'me',
-        type: 'emoji',
-        data: { emoji }
-      })
+      const text = this.$refs.userInput.textContent
+      if (!text || !text.length > 0) {
+        
+        this.$refs.userInput.textContent = emoji
+        this.emoji = emoji
+      }
+      
+      const Newtext = text+emoji
+      this.$refs.userInput.textContent = Newtext
     },
     _handleFileSubmit (file) {
-      this.file = file
+      this.file.push(file);
     },
     _editFinish(){
       this.store.editMessage = null;
@@ -333,10 +339,13 @@ export default {
   cursor: pointer;
   overflow: hidden;
 }
+.file-wrapper .file-container:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
 
 .file-container {
   background-color: #f4f7f9;
-  border-top-left-radius: 10px;
   padding: 5px 20px;
   color: #565867;
 }

@@ -9,7 +9,7 @@
         name="user-avatar"
         :message="message" 
         :user="user">
-          <div v-if="message.type !== 'system'" :title="authorName" class="sc-message--avatar" :style="{
+          <div v-if="message.type !== 'system' && showUserAvatar" :title="authorName" class="sc-message--avatar" :style="{
             backgroundImage: `url(${chatImageUrl})`
           }" v-tooltip="authorName"></div>
       </slot>
@@ -21,6 +21,7 @@
         :messageStyling="messageStyling"
         @remove="$emit('remove')">
           <template v-slot:default="scopedProps">
+            <FileMessage v-if="message.data.file" :data="message.data" :messageColors="determineMessageColors()" />
             <slot name="text-message-body" :message="scopedProps.message" :messageText="scopedProps.messageText" :messageColors="scopedProps.messageColors" :me="scopedProps.me">
             </slot>
           </template>
@@ -30,12 +31,19 @@
           </template>
       </TextMessage>
       <EmojiMessage v-else-if="message.type === 'emoji'" :data="message.data" />
-      <FileMessage v-else-if="message.type === 'file'" :data="message.data" :messageColors="determineMessageColors()" />
       <TypingMessage v-else-if="message.type === 'typing'" :messageColors="determineMessageColors()" />
       <SystemMessage v-else-if="message.type === 'system'" :data="message.data" :messageColors="determineMessageColors()">
           <slot name="system-message-body" :message="message.data">
           </slot>
       </SystemMessage>
+      <div class="sc-message--status" :class="{
+        sent: message.author === 'me',
+        received: message.author !== 'me' && message.type !== 'system',
+        system: message.type === 'system'
+      }">
+        <p class="mb-0 text-muted small text-capitalize" v-if="message.type != 'system' && message.type != 'typing'">
+          <DateFormat :date="message.data.meta.timestamp" class="mr-3" /> {{ message.data.meta.status }}</p>
+        </div>
     </div>
   </div>
 </template>
@@ -48,6 +56,7 @@ import TypingMessage from './messages/TypingMessage.vue'
 import SystemMessage from './messages/SystemMessage.vue'
 import chatIcon from './assets/chat-icon.svg'
 import store from "./store/";
+import DateFormat from '@components/Util/DateFormat';
 
 export default {
   data () {
@@ -60,7 +69,8 @@ export default {
     FileMessage,
     EmojiMessage,
     TypingMessage,
-    SystemMessage
+    SystemMessage,
+    DateFormat
   },
   props: {
     message: {
@@ -72,6 +82,10 @@ export default {
       required: true
     },
     messageStyling: {
+      type: Boolean,
+      required: true
+    },
+    showUserAvatar: {
       type: Boolean,
       required: true
     },
@@ -124,6 +138,10 @@ export default {
 .sc-message--content {
   width: 100%;
   display: flex;
+  &:hover { 
+    flex-wrap: wrap;
+    .sc-message--status { display: block; }
+  }
 }
 
 .sc-message--content.sent {
@@ -155,6 +173,16 @@ export default {
   color: white;
   text-align: center;
 }
+.sc-message--status { 
+    flex-basis: 100%;
+    display: none;
+}
+.sc-message--status.sent { 
+  text-align: right;
+}
+.sc-message--status.received { 
+  text-align: left;
+}
 
 @media (max-width: 450px) {
   .sc-message {
@@ -169,16 +197,14 @@ export default {
   font-size: 14px;
   line-height: 1.4;
   position: relative;
+  max-width: 215px;
   -webkit-font-smoothing: subpixel-antialiased;
   .sc-message--text-body{
     .sc-message--text-content{
       white-space: pre-wrap;
     }
   }
-  &:hover .sc-message--toolbox{
-    left: -20px;
-    opacity: 1;
-  }
+
   .sc-message--toolbox{
     transition: left 0.2s ease-out 0s;
     white-space: normal;

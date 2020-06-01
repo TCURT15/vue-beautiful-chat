@@ -1,13 +1,15 @@
 <template>
-  <div class='sc-message--file' :style="messageColors">
-    <div class='sc-message--file-icon'>
-      <img :src="data.file.url" class="sc-image">
+    <div>
+        <div class='sc-message--file' v-for="attachment in data.file" :style="messageColors">
+            <div class='sc-message--file-icon' v-if="['image/gif','image/jpg','image/jpeg','image/png','image/tiff','image/svg'].includes(attachment.mime_type)">
+                <a :href="attachment.url ? attachment.url : '#'" target='_blank'><img :src="attachment.url" class="sc-image"></a>
+            </div>
+            <div class='sc-message--file-name' v-else :style="messageColors">
+                <span class='icon-file-message'><img :src="icons.file.img"  :alt="icons.file.name" height="15px" style="height: 15px" /></span>
+                <a :href="attachment.url ? attachment.url : '#'" target='_blank'>Attachment</a>
+            </div>
+        </div>
     </div>
-    <div class='sc-message--file-name' :style="messageColors">
-      <a :href="data.file.url ? data.file.url : '#'" target='_blank'>{{data.file.name || ''}}</a>
-    </div>
-    <div class="sc-message--file-text" :style="messageColors">{{data.text}}<p v-if="data.meta" class='sc-message--meta' :style="messageColors">{{data.meta}}</p></div>
-  </div>
 </template>
 
 <script>
@@ -44,7 +46,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-top: 15px;
-  margin-bottom: 0px;
+  margin-bottom: 15px;
 }
 
 .sc-image {
@@ -89,7 +91,6 @@ export default {
 .sc-message--content.received .sc-message--file {
   color: #263238;
   background-color: #f4f7f9;
-  margin-right: 40px;
 }
 
 .sc-message--content.received .sc-message--file-name {

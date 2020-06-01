@@ -1,18 +1,22 @@
 <template>
-  <div class="sc-header" :style="{background: colors.header.bg, color: colors.header.text}">
+  <div class="sc-header sc-drag" :style="{background: colors.header.bg, color: colors.header.text}">
     <slot>
       <img class="sc-header--img" :src="imageUrl" alt="" v-if="imageUrl" />
       <div v-if="!disableUserListToggle" class="sc-header--title enabled" @click="toggleUserList"> {{title}} </div>
       <div v-else class="sc-header--title"> {{title}} </div>
     </slot>
-      <div v-if="showCloseButton" class="sc-header--close-button" @click="onClose">
+    <div v-if="showMinimizeButton" class="sc-header--minimize-button" @click="onMinimize">
+        <img :src="icons.minimize.img" :alt="icons.minimize.name" />
+    </div>
+    <div v-if="showCloseButton" class="sc-header--close-button" @click="onClose">
         <img :src="icons.close.img" :alt="icons.close.name" />
-      </div>
+    </div>
   </div>
 </template>
 <script>
 
 import CloseIcon from './assets/close-icon-big.png'
+import MinimizeIcon from './assets/minimize-icon-big.png'
 
 export default {
   props: {
@@ -22,6 +26,10 @@ export default {
         return {
           close:{
             img: CloseIcon,
+            name: 'default',
+          },
+          minimize:{
+            img: MinimizeIcon,
             name: 'default',
           },
         }
@@ -38,6 +46,10 @@ export default {
       type: Function,
       required: true
     },
+    onMinimize: {
+      type: Function,
+      required: true
+    },
     colors: {
       type: Object,
       required: true
@@ -47,6 +59,10 @@ export default {
       default: false
     },
     showCloseButton: {
+      type: Boolean,
+      default: false
+    },
+    showMinimizeButton: {
       type: Boolean,
       default: false
     }
@@ -74,6 +90,7 @@ export default {
   position: relative;
   box-sizing: border-box;
   display: flex;
+  cursor: move;
 }
 
 .sc-header--img {
@@ -110,11 +127,17 @@ export default {
   margin-left: auto;
 }
 
-.sc-header--close-button:hover {
-  box-shadow: 0px 2px 5px rgba(0.2, 0.2, 0.5, .1);
+.sc-header--minimize-button {
+  width: 40px;
+  align-self: center;
+  height: 40px;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: auto;
 }
 
-.sc-header--close-button img {
+.sc-header--close-button img, .sc-header--minimzie-button,  img {
   width: 100%;
   height: 100%;
   padding: 13px;

@@ -1,6 +1,6 @@
 <template>
-  <div class="sc-wrapper">
-    <div v-if="showLauncher" class="sc-launcher" :class="{opened: isOpen}" @click.prevent="isOpen ? close() : openAndFocus()" :style="{backgroundColor: colors.launcher.bg}">
+  <div class="sc-wrapper" :class="{opened: isOpen}">
+    <div v-if="showLauncher" class="sc-launcher sc-drag" :class="{opened: isOpen}" :style="{backgroundColor: colors.launcher.bg}">
       <div v-if="newMessagesCount > 0 && !isOpen" class="sc-new-messsages-count">
         {{newMessagesCount}}
       </div>
@@ -8,8 +8,9 @@
       <img v-else class="sc-open-icon" :src="icons.open.img"  :alt="icons.open.name" />
     </div>
     <ChatWindow
-      :showLauncher="showLauncher"
+     :showLauncher="showLauncher"
       :showCloseButton="showCloseButton"
+      :showMinimizeButton="showMinimizeButton"
       :messageList="messageList"
       :onUserInputSubmit="onMessageWasSent"
       :participants="participants"
@@ -17,8 +18,12 @@
       :titleImageUrl="titleImageUrl"
       :isOpen="isOpen"
       :onClose="close"
+      :onMinimize="minimize"
       :showEmoji="showEmoji"
+      :hasMore="hasMore"
+      :isLoading="isLoading"
       :showFile="showFile"
+      :showUserAvatar="showUserAvatar"
       :placeholder="placeholder"
       :showTypingIndicator="showTypingIndicator"
       :colors="colors"
@@ -26,6 +31,7 @@
       :messageStyling="messageStyling"
       :disableUserListToggle="disableUserListToggle"
       @scrollToTop="$emit('scrollToTop')"
+      @loadMore="$emit('loadMore')"
       @onType="$emit('onType')"
       @edit="$emit('edit', $event)"
       @remove="$emit('remove', $event)"
@@ -55,10 +61,9 @@
 </template>
 <script>
 import ChatWindow from './ChatWindow.vue'
-
 import CloseIcon from './assets/close-icon.png'
-import OpenIcon from './assets/logo-no-bg.svg'
-
+import OpenIcon from './assets/logo-no-bg.svg';
+import Draggabilly from 'Draggabilly';
 export default {
   props: {
     icons:{
@@ -85,11 +90,23 @@ export default {
       type: Boolean,
       required: true
     },
+    hasMore: {
+      type: Boolean,
+      required: true
+    },
+    isLoading: {
+      type: Boolean,
+      required: true
+    },
     open: {
       type: Function,
       required: true
     },
     close: {
+      type: Function,
+      required: true
+    },
+    minimize: {
       type: Function,
       required: true
     },
@@ -102,6 +119,10 @@ export default {
       default: true
     },
     showCloseButton: {
+      type: Boolean,
+      default: true
+    },
+    showMinimizeButton: {
       type: Boolean,
       default: true
     },
@@ -136,6 +157,10 @@ export default {
     showTypingIndicator: {
       type: String,
       default: () => ''
+    },
+    showUserAvatar: {
+      type: Boolean,
+      required: true
     },
     colors: {
       type: Object,
@@ -198,47 +223,30 @@ export default {
     },
   },
   methods: {
-    openAndFocus() {
-      this.open();
-      this.$root.$emit('focusUserInput');
-    }
+    toggleOpen() {
+        this.open();
+        if (this.isOpen) {
+          this.$root.$emit('focusUserInput');
+        }
+    },
   },
   mounted() {
-    dragElement(document.querySelector('.sc-wrapper'));
-    function dragElement(elmnt) {
-      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;    
-      document.querySelector(".sc-wrapper .sc-launcher").onmousedown = dragMouseDown;
-      elmnt.onmousedown = dragMouseDown;
+    var app = this;
+    
+    var items = document.querySelectorAll('.sc-wrapper');
+    for ( var i=0, len = items.length; i < len; i++ ) {
+      var item = items[i];
+      var draggie = new Draggabilly(item, {
+          handle: '.sc-drag',
+          containment: '.main-content',
+          grid: [15,15]
 
-      function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
-      }
-
-      function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-      }
-
-      function closeDragElement() {
-        /* stop moving when mouse button is released:*/
-        document.onmouseup = null;
-        document.onmousemove = null;
-      }
+      });
+      draggie.on('staticClick', function( event, pointer ) {
+          if (event.target.classList.contains('sc-open-icon')) {
+            app.toggleOpen();
+          }
+      });
     }
   },
   computed: {
@@ -262,34 +270,32 @@ export default {
 }
 </script>
 <style scoped>
+.sc-wrapper { 
+    position: absolute; 
+    right: 30px; 
+    bottom: 185px; 
+    width: fit-content; 
+    height: fit-content; 
+    z-index: 155;
+}
+.sc-launcher.opened { display: none; }
 .sc-launcher {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background-position: center;
   background-repeat: no-repeat;
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
   border-radius: 50%;
   box-shadow: none;
   transition: box-shadow 0.2s ease-in-out;
   cursor: pointer;
 }
-
-.sc-launcher:before {
-  content: '';
-  position: relative;
-  display: block;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  transition: box-shadow 0.2s ease-in-out;
-}
-
 .sc-launcher .sc-open-icon,
 .sc-launcher .sc-closed-icon {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   position: absolute;
   top: 0px;
   transition: opacity 100ms ease-in-out, transform 100ms ease-in-out;
@@ -297,12 +303,11 @@ export default {
 
 .sc-launcher .sc-closed-icon {
   transition: opacity 100ms ease-in-out, transform 100ms ease-in-out;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
 }
 
 .sc-launcher .sc-open-icon {
-  padding: 20px;
   box-sizing: border-box;
   opacity: 1;
 }
@@ -335,11 +340,12 @@ export default {
   border-radius: 50%;
 	width: 22px;
   height: 22px;
-  background: #ff4646;
+  background: #dc3545;
   color: white;
   text-align: center;
   margin: auto;
   font-size: 12px;
   font-weight: 500;
+  z-index: 5;
 }
 </style>

@@ -1,21 +1,5 @@
 <template>
   <div class="sc-message--text" :style="messageColors">
-    <template>
-      <div class="sc-message--toolbox" :style="{background: messageColors.backgroundColor}">
-        <button v-if="me && message.id != null && message.id != undefined" @click="edit" :disabled="isEditing">
-          <icon-base :color="isEditing? 'black': messageColors.color" width="10" icon-name="edit">
-            <icon-edit />
-          </icon-base>
-        </button>
-        <button v-if="me && message.id != null && message.id != undefined" @click="$emit('remove')">
-          <icon-base :color="messageColors.color" width="10" icon-name="remove">
-            <icon-cross />
-          </icon-base>
-        </button>
-        <slot name="text-message-toolbox" :message="message" :me="me">
-        </slot>
-      </div>
-    </template>
     <slot :message="message" :messageText="messageText" :messageColors="messageColors" :me="me">
       <p class="sc-message--text-content" v-html="messageText"></p>
       <p v-if="message.data.meta" class='sc-message--meta' :style="{color: messageColors.color}">{{message.data.meta}}</p>

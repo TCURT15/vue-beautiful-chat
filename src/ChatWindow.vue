@@ -2,9 +2,11 @@
   <div class="sc-chat-window" :class="{opened: isOpen, closed: !isOpen}">
     <Header
       :showCloseButton="showCloseButton"
+      :showMinimizeButton="showMinimizeButton"
       :title="title"
       :imageUrl="titleImageUrl"
       :onClose="onClose"
+      :onMinimize="onMinimize"
       :colors="colors"
       :disableUserListToggle="disableUserListToggle"
       @userList="handleUserListToggle"
@@ -21,11 +23,15 @@
     <MessageList
       v-if="!showUserList"
       :messages="messages"
+      :hasMore="hasMore"
+      :isLoading="isLoading"
       :participants="participants"
       :showTypingIndicator="showTypingIndicator"
       :colors="colors"
+      :showUserAvatar="showUserAvatar"
       :alwaysScrollToBottom="alwaysScrollToBottom"
       :messageStyling="messageStyling"
+      @loadMore="$emit('loadMore')"
       @scrollToTop="$emit('scrollToTop')"
       @remove="$emit('remove', $event)"
     >
@@ -81,7 +87,19 @@ export default {
       type: Boolean,
       default: true
     },
+    showMinimizeButton: {
+      type: Boolean,
+      default: true
+    },
     showFile: {
+      type: Boolean,
+      default: false
+    },
+    hasMore: {
+      type: Boolean,
+      default: false
+    },
+    isLoading: {
       type: Boolean,
       default: false
     },
@@ -102,6 +120,10 @@ export default {
       required: true
     },
     onClose: {
+      type: Function,
+      required: true
+    },
+    onMinimize: {
       type: Function,
       required: true
     },
@@ -136,7 +158,11 @@ export default {
     disableUserListToggle: {
       type: Boolean,
       default: false
-    }
+    },
+    showUserAvatar: {
+      type: Boolean,
+      required: true
+    },
   },
   data() {
     return {
@@ -163,9 +189,9 @@ export default {
 <style scoped>
 .sc-chat-window {
   width: 370px;
-  height: calc(100% - 120px);
+  height: 500px;
   max-height: 590px;
-  position: fixed;
+  position: initial;
   right: 25px;
   bottom: 100px;
   box-sizing: border-box;
@@ -179,6 +205,7 @@ export default {
   animation: fadeIn;
   animation-duration: 0.3s;
   animation-timing-function: ease-in-out;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .sc-chat-window.closed {
