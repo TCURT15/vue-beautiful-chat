@@ -22,6 +22,7 @@
       :showEmoji="showEmoji"
       :hasMore="hasMore"
       :isLoading="isLoading"
+      :icons="icons"
       :showFile="showFile"
       :showUserAvatar="showUserAvatar"
       :placeholder="placeholder"
@@ -37,7 +38,7 @@
       @remove="$emit('remove', $event)"
     >
       <template v-slot:header>
-        <slot name="header">
+        <slot name="header" :icons="icons">
         </slot>
       </template>
       <template v-slot:user-avatar="scopedProps">
