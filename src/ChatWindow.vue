@@ -4,7 +4,6 @@
       :showCloseButton="showCloseButton"
       :showMinimizeButton="showMinimizeButton"
       :title="title"
-      :icons="icons"
       :imageUrl="titleImageUrl"
       :onClose="onClose"
       :onMinimize="onMinimize"
@@ -145,10 +144,6 @@ export default {
       required: true
     },
     colors: {
-      type: Object,
-      required: true
-    },
-    icons: {
       type: Object,
       required: true
     },

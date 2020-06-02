@@ -6,43 +6,7 @@
       <div v-else class="sc-header--title"> {{title}} </div>
     </slot>
     <div v-if="showMinimizeButton" class="sc-header--minimize-button" @click="onMinimize">
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-          <g>
-            <g>
-        <path d="M492,236H20c-11.046,0-20,8.954-20,20c0,11.046,8.954,20,20,20h472c11.046,0,20-8.954,20-20S503.046,236,492,236z"/>
-  </g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-</svg>
+        <img :src="icons.minimize.img" :alt="icons.minimize.name" />
     </div>
     <div v-if="showCloseButton" class="sc-header--close-button" @click="onClose">
         <img :src="icons.close.img" :alt="icons.close.name" />

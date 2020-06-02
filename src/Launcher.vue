@@ -22,7 +22,6 @@
       :showEmoji="showEmoji"
       :hasMore="hasMore"
       :isLoading="isLoading"
-      :icons="icons"
       :showFile="showFile"
       :showUserAvatar="showUserAvatar"
       :placeholder="placeholder"
@@ -38,7 +37,7 @@
       @remove="$emit('remove', $event)"
     >
       <template v-slot:header>
-        <slot name="header" :icons="icons">
+        <slot name="header">
         </slot>
       </template>
       <template v-slot:user-avatar="scopedProps">
@@ -62,11 +61,8 @@
 </template>
 <script>
 import ChatWindow from './ChatWindow.vue'
-import CloseIcon from './assets/close.svg'
+import CloseIcon from './assets/close-icon.png'
 import OpenIcon from './assets/logo-no-bg.svg';
-import FileIcon from './assets/file.svg'
-import MinimizeIcon from './assets/minimize.svg';
-
 var Draggabilly = require('draggabilly');
 export default {
   props: {
@@ -83,15 +79,6 @@ export default {
               img: CloseIcon,
               name: 'default',
             },
-            file:{
-              img: FileIcon,
-              name: 'default',
-            },
-            minimize:{
-              img: MinimizeIcon,
-              name: 'default',
-            },
-
         }
       }
     },
