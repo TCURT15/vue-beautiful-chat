@@ -64,6 +64,9 @@
 import ChatWindow from './ChatWindow.vue'
 import CloseIcon from './assets/close.svg'
 import OpenIcon from './assets/logo-no-bg.svg';
+import FileIcon from '.assets/file.svg'
+import MinimizeIcon from './assets/minimize.svg';
+
 var Draggabilly = require('draggabilly');
 export default {
   props: {
@@ -80,6 +83,15 @@ export default {
               img: CloseIcon,
               name: 'default',
             },
+            file:{
+              img: FileIcon,
+              name: 'default',
+            },
+            minimize:{
+              img: MinimizeIcon,
+              name: 'default',
+            },
+
         }
       }
     },
