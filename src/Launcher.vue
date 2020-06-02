@@ -63,7 +63,7 @@
 import ChatWindow from './ChatWindow.vue'
 import CloseIcon from './assets/close-icon.png'
 import OpenIcon from './assets/logo-no-bg.svg';
-require('draggabilly');
+var Draggabilly = require('draggabilly');
 export default {
   props: {
     icons:{
