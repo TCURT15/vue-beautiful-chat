@@ -17,6 +17,7 @@
       :title="chatWindowTitle"
       :titleImageUrl="titleImageUrl"
       :isOpen="isOpen"
+      :icons="icons"
       :onClose="close"
       :onMinimize="minimize"
       :showEmoji="showEmoji"
