@@ -61,7 +61,7 @@
 </template>
 <script>
 import ChatWindow from './ChatWindow.vue'
-import CloseIcon from './assets/close-icon.png'
+import CloseIcon from './assets/close.svg'
 import OpenIcon from './assets/logo-no-bg.svg';
 var Draggabilly = require('draggabilly');
 export default {

@@ -15,25 +15,10 @@
 </template>
 <script>
 
-import CloseIcon from './assets/close-icon-big.png'
-import MinimizeIcon from './assets/minimize-icon-big.png'
-
 export default {
   props: {
     icons:{
       type: Object,
-      default: function () {
-        return {
-          close:{
-            img: CloseIcon,
-            name: 'default',
-          },
-          minimize:{
-            img: MinimizeIcon,
-            name: 'default',
-          },
-        }
-      }
     },
     imageUrl: {
       type: String,
