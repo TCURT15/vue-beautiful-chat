@@ -125,7 +125,7 @@ export default {
 .sc-header--close-button img, .sc-header--minimzie-button,  img {
   width: 100%;
   height: 100%;
-  padding: 13px;
+  /*padding: 13px;*/
   box-sizing: border-box;
 }
 
