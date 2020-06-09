@@ -36,6 +36,10 @@
           <slot name="system-message-body" :message="message.data">
           </slot>
       </SystemMessage>
+      <span class="sc-message-failed" :class="{ 'order-1' : message.author !== 'me' }" v-if="message.data.meta && message.data.meta.status == 'failed'">
+        !
+      </span>
+
       <div class="sc-message--status" :class="{
         sent: message.author === 'me',
         received: message.author !== 'me' && message.type !== 'system',
@@ -173,6 +177,25 @@ export default {
   color: white;
   text-align: center;
 }
+.sc-message-failed { 
+  background: red;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  color: #FFF;
+  line-height: 1;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+  padding: 3px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+.sc-message-failed.order-1 { 
+  margin-right: 0;
+  margin-left: 5px;
+}
+
 .sc-message--status { 
     flex-basis: 100%;
     display: none;
