@@ -5,8 +5,9 @@
                 <a :href="attachment.url ? attachment.url : '#'" target='_blank'><img :src="attachment.url" class="sc-image"></a>
             </div>
             <div class='sc-message--file-name' v-else :style="messageColors">
+                <a :href="attachment.url ? attachment.url : '#'" target='_blank'>
                 <span class='icon-file-message'><img :src="icons.file.img"  height="15px" style="height: 15px" /></span>
-                <a :href="attachment.url ? attachment.url : '#'" target='_blank'>Attachment</a>
+                Attachment</a>
             </div>
         </div>
     </div>
@@ -79,8 +80,6 @@ export default {
 
 .sc-message--file-name {
   color: white;
-  padding-left: 15px;
-  padding-right: 15px;
   padding-top: 0;
   font-size: small;
   text-align: center;
