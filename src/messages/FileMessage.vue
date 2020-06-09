@@ -82,7 +82,7 @@ export default {
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 0;
-  font-size: x-small;
+  font-size: small;
   text-align: center;
 }
 
