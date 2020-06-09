@@ -5,7 +5,7 @@
                 <a :href="attachment.url ? attachment.url : '#'" target='_blank'><img :src="attachment.url" class="sc-image"></a>
             </div>
             <div class='sc-message--file-name' v-else :style="messageColors">
-                <span class='icon-file-message'><img :src="fileIcon"  height="15px" style="height: 15px" /></span>
+                <span class='icon-file-message'><img :src="icons.file.img"  height="15px" style="height: 15px" /></span>
                 <a :href="attachment.url ? attachment.url : '#'" target='_blank'>Attachment</a>
             </div>
         </div>
@@ -19,6 +19,18 @@ export default {
     data: {
       type: Object,
       required: true
+    },
+    icons:{
+      type: Object,
+      required: false,
+      default: function () {
+        return {
+          file:{
+            img: fileIcon,
+            name: 'default',
+          },
+        }
+      }
     },
     messageColors: {
       type: Object,
