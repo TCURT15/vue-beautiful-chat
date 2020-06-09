@@ -20,10 +20,6 @@ export default {
       type: Object,
       required: true
     },
-    icons: {
-      type: Object,
-      required: true
-    },
     messageColors: {
       type: Object,
       required: true
