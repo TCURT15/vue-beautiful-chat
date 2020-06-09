@@ -14,6 +14,9 @@
           }" v-tooltip="authorName"></div>
       </slot>
 
+      <span class="sc-message-failed" :class="{ 'order-1' : message.author !== 'me' }" v-if="message.type != 'system' && message.type != 'typing' && message.data.meta && message.data.meta.status == 'failed'">
+        !
+      </span>
       <TextMessage 
         v-if="message.type === 'text'" 
         :message="message" 
@@ -36,9 +39,6 @@
           <slot name="system-message-body" :message="message.data">
           </slot>
       </SystemMessage>
-      <span class="sc-message-failed" :class="{ 'order-1' : message.author !== 'me' }" v-if="message.data.meta && message.data.meta.status == 'failed'">
-        !
-      </span>
 
       <div class="sc-message--status" :class="{
         sent: message.author === 'me',
