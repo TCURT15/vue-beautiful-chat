@@ -1,5 +1,5 @@
 <template>
-  <div class="sc-header sc-drag" :class="{ 'sc-header-toggle-user-list': !disableUserListToggle}" :style="{background: colors.header.bg, color: colors.header.text}">
+  <div class="sc-header sc-drag" :style="{background: colors.header.bg, color: colors.header.text}">
     <slot>
       <img class="sc-header--img" :src="imageUrl" alt="" v-if="imageUrl" />
       <div v-if="!disableUserListToggle" class="sc-header--title enabled" @click="toggleUserList"> {{title}} </div>
@@ -121,7 +121,7 @@ export default {
   border-radius: 5px;
   margin-left: auto;
 }
-
+.sc-header-toggle-user-list { cursor: pointer; }
 .sc-header--close-button img, .sc-header--minimzie-button,  img {
   width: 100%;
   height: 100%;
