@@ -82,7 +82,7 @@ export default {
   props: {
     showUserList: {
       type: Boolean,
-    }
+    },
     showEmoji: {
       type: Boolean,
       default: false
