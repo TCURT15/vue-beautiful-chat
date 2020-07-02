@@ -71,7 +71,7 @@ export default {
     return {
       showUserList: false,
     }
-  }
+  },
   props: {
     icons:{
       type: Object,
