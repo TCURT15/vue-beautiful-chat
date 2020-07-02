@@ -67,13 +67,17 @@ import CloseIcon from './assets/close-icon.png'
 import OpenIcon from './assets/logo-no-bg.svg';
 var Draggabilly = require('draggabilly');
 export default {
+  data() {
+    return {
+      showUserList: false,
+    }
+  }
   props: {
     icons:{
       type: Object,
       required: false,
       default: function () {
         return {
-            showUserList: false,
             open: {
               img: OpenIcon,
               name: 'default',
