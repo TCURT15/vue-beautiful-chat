@@ -80,6 +80,9 @@ export default {
     UserList
   },
   props: {
+    showUserList: {
+      type: Boolean,
+    }
     showEmoji: {
       type: Boolean,
       default: false
@@ -171,7 +174,6 @@ export default {
   },
   data() {
     return {
-      showUserList: false
     }
   },
   computed: {

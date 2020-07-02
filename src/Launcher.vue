@@ -20,6 +20,7 @@
       :icons="icons"
       :onClose="close"
       :onMinimize="minimize"
+      :showUserList="showUserList"
       :showEmoji="showEmoji"
       :hasMore="hasMore"
       :isLoading="isLoading"
@@ -72,6 +73,7 @@ export default {
       required: false,
       default: function () {
         return {
+            showUserList: false,
             open: {
               img: OpenIcon,
               name: 'default',
@@ -246,6 +248,9 @@ export default {
       draggie.on('staticClick', function( event, pointer ) {
           if (event.target.classList.contains('sc-open-icon')) {
             app.toggleOpen();
+          }
+          if (event.target.classList.contains('sc-header-toggle-user-list')) {
+            app.showUserList = !app.showUserList
           }
       });
     }
