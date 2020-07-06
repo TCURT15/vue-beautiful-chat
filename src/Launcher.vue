@@ -281,7 +281,7 @@ export default {
 </script>
 <style scoped>
 .sc-wrapper { 
-    position: absolute; 
+    position: fixed; 
     right: 30px; 
     bottom: 185px; 
     width: fit-content; 
