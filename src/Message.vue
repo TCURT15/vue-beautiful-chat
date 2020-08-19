@@ -60,7 +60,7 @@ import TypingMessage from './messages/TypingMessage.vue'
 import SystemMessage from './messages/SystemMessage.vue'
 import chatIcon from './assets/chat-icon.svg'
 import store from "./store/";
-import DateFormat from '@components/Util/DateFormat';
+import DateFormat from '@components/App/Util/DateFormat';
 
 export default {
   data () {
