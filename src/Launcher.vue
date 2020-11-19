@@ -229,6 +229,13 @@ export default {
       default: false
     },
   },
+  watch: {
+      isOpen(after) {
+        if (after) {
+          this.$root.$emit('focusUserInput');
+        }
+      }
+  }
   methods: {
     toggleOpen() {
         this.open();
