@@ -257,6 +257,9 @@ export default {
             app.showUserList = !app.showUserList
           }
       });
+      if (this.isOpen) {
+        this.$root.$emit('focusUserInput');
+      }
     }
   },
   computed: {

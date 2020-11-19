@@ -148,7 +148,7 @@ export default {
     },
     focusUserInput() {
       this.$nextTick(() => {
-        this.$refs.userInput.focus();
+        setTimeout(() => { this.$refs.userInput.focus(); }, 500);
       })
     },
     _submitSuggestion(suggestion) {
