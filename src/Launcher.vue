@@ -235,7 +235,7 @@ export default {
           this.$root.$emit('focusUserInput');
         }
       }
-  }
+  },
   methods: {
     toggleOpen() {
         this.open();
