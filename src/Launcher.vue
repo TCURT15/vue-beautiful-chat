@@ -27,6 +27,7 @@
       :showFile="showFile"
       :showUserAvatar="showUserAvatar"
       :placeholder="placeholder"
+      :type="type"
       :showTypingIndicator="showTypingIndicator"
       :colors="colors"
       :alwaysScrollToBottom="alwaysScrollToBottom"
@@ -40,10 +41,6 @@
     >
       <template v-slot:header>
         <slot name="header">
-        </slot>
-      </template>
-      <template v-slot:message-input="scopedProps">
-        <slot name="message-input">
         </slot>
       </template>
       <template v-slot:user-avatar="scopedProps">
@@ -232,6 +229,10 @@ export default {
       type: Boolean,
       default: false
     },
+    type: {
+      type: 'String',
+      default: 'chat'
+    }
   },
   watch: {
       isOpen(after) {

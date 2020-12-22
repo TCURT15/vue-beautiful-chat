@@ -56,18 +56,14 @@
     <UserInput
       v-if="!showUserList"
       :showEmoji="showEmoji"
+      :type="type"
       :onSubmit="onUserInputSubmit"
       :suggestions="getSuggestions()"
       :showFile="showFile"
       :placeholder="placeholder"
       @onType="$emit('onType')"
       @edit="$emit('edit', $event)"
-      :colors="colors">
-      <template v-slot:message-input="scopedProps">
-        <slot name="message-input">
-        </slot>
-      </template>
-    </UserInput>
+      :colors="colors" />
   </div>
 </template>
 
@@ -176,6 +172,10 @@ export default {
       type: Boolean,
       required: true
     },
+    type: {
+      type: String,
+      default: 'chat'
+    }
   },
   data() {
     return {

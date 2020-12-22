@@ -8,7 +8,11 @@
       <span class='delete-file-message' @click="cancelFile(index)"><img :src="icons.closeSvg.img" :alt="icons.closeSvg.name" height="10px" style="height: 10px" title='Remove the file' /></span>
     </div>
     </div>
-    <slot name="message-input"></slot>
+    <div style="background-color: #EEE; padding: 2px 10px;">
+      <p style="margin-bottom: 0px; font-size: 60%" v-if="showCharacterLimit">
+        <i class="icon-info-outline"> Messages over 160 characters may not be delivered properly
+      </p>
+    </div>
     <form class="sc-user-input" :class="{active: inputActive}" :style="{background: colors.userInput.bg}">
       <div
         role="button"
@@ -113,7 +117,11 @@ export default {
     colors: {
       type: Object,
       required: true
-    }
+    },
+    type: {
+      type: String,
+      default: 'chat',
+    },
   },
   data () {
     return {
@@ -235,6 +243,14 @@ export default {
     },
     isEditing() {
       return store.editMessage && store.editMessage.id
+    },
+    characterCount() {
+      return this.$refs.userInput.textContent.length
+    },
+    showCharacterLimit() {
+      if (this.type == 'chat' && this.characterCount >= 160) {
+        return true;
+      }
     }
   },
   mounted() {
