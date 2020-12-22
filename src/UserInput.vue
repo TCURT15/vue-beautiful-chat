@@ -9,7 +9,7 @@
     </div>
     </div>
     <div style="background-color: #EEE; padding: 5px 10px;" v-if="showCharacterLimit">
-      <p style="margin-bottom: 0px; font-size: 55%">
+      <p style="margin-bottom: 0px; font-size: 60%">
         <i class="icon-info-outline"></i> Messages over 160 characters may not be delivered properly depending on the recipients device/carrier
       </p>
     </div>
