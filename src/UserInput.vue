@@ -248,7 +248,7 @@ export default {
       return this.$refs.userInput.textContent.length
     },
     showCharacterLimit() {
-      if (this.type == 'text' && this.characterCount >= 160) {
+      if (this.type == 'text') {
         return true;
       }
     }
