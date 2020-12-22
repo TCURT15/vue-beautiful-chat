@@ -230,7 +230,7 @@ export default {
       default: false
     },
     type: {
-      type: 'String',
+      type: String,
       default: 'chat'
     }
   },
