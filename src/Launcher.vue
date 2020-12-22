@@ -42,6 +42,10 @@
         <slot name="header">
         </slot>
       </template>
+      <template v-slot:message-input="scopedProps">
+        <slot name="message-input">
+        </slot>
+      </template>
       <template v-slot:user-avatar="scopedProps">
         <slot name="user-avatar" :user="scopedProps.user" :message="scopedProps.message">
         </slot>

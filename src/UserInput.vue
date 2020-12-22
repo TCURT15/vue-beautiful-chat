@@ -8,6 +8,10 @@
       <span class='delete-file-message' @click="cancelFile(index)"><img :src="icons.closeSvg.img" :alt="icons.closeSvg.name" height="10px" style="height: 10px" title='Remove the file' /></span>
     </div>
     </div>
+    <template v-slot:message-input="scopedProps">
+      <slot name="message-input">
+      </slot>
+    </template>
     <form class="sc-user-input" :class="{active: inputActive}" :style="{background: colors.userInput.bg}">
       <div
         role="button"
