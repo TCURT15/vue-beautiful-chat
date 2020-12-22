@@ -10,7 +10,7 @@
     </div>
     <div style="background-color: #EEE; padding: 2px 10px;">
       <p style="margin-bottom: 0px; font-size: 60%" v-if="showCharacterLimit">
-        <i class="icon-info-outline"> Messages over 160 characters may not be delivered properly
+        <i class="icon-info-outline"></i> Messages over 160 characters may not be delivered properly
       </p>
     </div>
     <form class="sc-user-input" :class="{active: inputActive}" :style="{background: colors.userInput.bg}">
