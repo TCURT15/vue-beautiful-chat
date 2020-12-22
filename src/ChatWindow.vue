@@ -62,7 +62,12 @@
       :placeholder="placeholder"
       @onType="$emit('onType')"
       @edit="$emit('edit', $event)"
-      :colors="colors" />
+      :colors="colors">
+      <template v-slot:message-input="scopedProps">
+        <slot name="message-input">
+        </slot>
+      </template>
+    </UserInput>
   </div>
 </template>
 
