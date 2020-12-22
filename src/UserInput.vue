@@ -8,9 +8,9 @@
       <span class='delete-file-message' @click="cancelFile(index)"><img :src="icons.closeSvg.img" :alt="icons.closeSvg.name" height="10px" style="height: 10px" title='Remove the file' /></span>
     </div>
     </div>
-    <div style="background-color: #EEE; padding: 2px 10px;">
-      <p style="margin-bottom: 0px; font-size: 60%" v-if="showCharacterLimit">
-        <i class="icon-info-outline"></i> Messages over 160 characters may not be delivered properly
+    <div style="background-color: #EEE; padding: 5px 10px;" v-if="showCharacterLimit">
+      <p style="margin-bottom: 0px; font-size: 55%">
+        <i class="icon-info-outline"></i> Messages over 160 characters may not be delivered properly depending on the recipients device/carrier
       </p>
     </div>
     <form class="sc-user-input" :class="{active: inputActive}" :style="{background: colors.userInput.bg}">
@@ -127,7 +127,8 @@ export default {
     return {
       file: [],
       inputActive: false,
-      store
+      store,
+      characterCount: 0,
     }
   },
   methods: {
@@ -138,6 +139,7 @@ export default {
       this.inputActive = onoff
     },
     handleKey (event) {
+      this.updateCharacterCount();
       if (event.keyCode === 13 && !event.shiftKey) {
         if (!this.isEditing){
           this._submitText(event);
@@ -159,6 +161,9 @@ export default {
       this.$nextTick(() => {
         setTimeout(() => { if (this.$refs.userInput) { this.$refs.userInput.focus(); } }, 500);
       })
+    },
+    updateCharacterCount() {
+      this.characterCount = this.$refs.userInput.textContent.length;
     },
     _submitSuggestion(suggestion) {
       this.onSubmit({author: 'me', type: 'text', data: { text: suggestion }})
@@ -225,7 +230,7 @@ export default {
     },
     _editFinish(){
       this.store.editMessage = null;
-    }
+    },
   },
   watch: {
     editMessageId(m){
@@ -244,13 +249,8 @@ export default {
     isEditing() {
       return store.editMessage && store.editMessage.id
     },
-    characterCount() {
-      return this.$refs.userInput.textContent.length
-    },
     showCharacterLimit() {
-      if (this.type == 'text') {
-        return true;
-      }
+      return this.type == 'text' && this.characterCount >= 160
     }
   },
   mounted() {
