@@ -1,5 +1,6 @@
 import Launcher from './Launcher.vue'
 import VTooltip from 'v-tooltip'
+import { MdProgress } from 'vue-material/dist/components';
 
 const defaultComponentName = 'beautiful-chat'
 
@@ -30,7 +31,6 @@ const Plugin = {
     Vue.component(this.componentName, Launcher)
     Vue.use(VTooltip)
 
-    import { MdProgress } from 'vue-material/dist/components';
     Vue.use(MdProgress);
   }
 }
